@@ -1,4 +1,7 @@
 module Effects
+  ALPHABETS = %w[a b c d e f g h i j k l m n o p q r s t u v w x y z].freeze
+  MAX_INDEX = 25
+
   def self.reverse
     ->(words) do
       words.split(' ').map(&:reverse).join(' ')
@@ -14,6 +17,20 @@ module Effects
   def self.loud(level)
     ->(words) do
       words.split(' ').map { |w| w.upcase + '!' * level }.join(' ')
+    end
+  end
+
+  def self.pitch_shift(shift_number)
+    ->(words) do
+      words.each_char.map { |c|
+        next c unless ALPHABETS.include?(c.downcase)
+
+        current_index = ALPHABETS.index(c.downcase)
+        shifted_index = current_index + shift_number
+        shifted_index = (shifted_index % MAX_INDEX) - 1 if shifted_index > MAX_INDEX
+
+        c.match?(/[A-Z]/) ? ALPHABETS[shifted_index].upcase : ALPHABETS[shifted_index]
+      }.join
     end
   end
 end

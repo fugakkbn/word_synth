@@ -47,5 +47,11 @@ class EffectTest < Minitest::Test
 
     effect = Effects.pitch_shift(-1)
     assert_equal 'HAL', effect.call('IBM')
+
+    effect = Effects.pitch_shift(-53)
+    assert_equal 'ZAB zab 123!', effect.call('ABC abc 123!')
+
+    effect = Effects.pitch_shift(52)
+    assert_equal 'A a', effect.call('A a')
   end
 end

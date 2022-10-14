@@ -1,6 +1,6 @@
 module Effects
   ALPHABETS = ('a'..'z').to_a.freeze
-  MAX_INDEX = 25
+  MAX_INDEX = 26
 
   def self.reverse
     ->(words) do
@@ -27,9 +27,9 @@ module Effects
 
         current_index = ALPHABETS.index(c.downcase)
         shifted_index = current_index + shift_number
-        shifted_index = (shifted_index % MAX_INDEX) - 1 if shifted_index > MAX_INDEX
+        shifted_index = shifted_index % MAX_INDEX
 
-        c.match?(/[A-Z]/) ? ALPHABETS[shifted_index].upcase : ALPHABETS[shifted_index]
+        ALPHABETS.include?(c) ? ALPHABETS[shifted_index] : ALPHABETS[shifted_index].upcase
       }.join
     end
   end
